@@ -1,3 +1,4 @@
+import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -27,11 +28,18 @@ export const POST = async (req: Request) => {
       return new NextResponse("Messages are requred", { status: 400 });
     }
 
+    const freeTrail = await checkApiLimt();
+    if (!freeTrail) {
+      return new NextResponse("Freetrail is expired", { status: 403 });
+    }
+
     const response = await openai.images.generate({
       n: parseInt(amount, 10),
       prompt,
       size: resolution,
     });
+
+    await updateApiLimit();
 
     return NextResponse.json(response.data, { status: 200 });
   } catch (err) {

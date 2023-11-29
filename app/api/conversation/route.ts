@@ -1,3 +1,4 @@
+import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -27,6 +28,12 @@ export const POST = async (req: Request) => {
       return new NextResponse("Messages are requred", { status: 400 });
     }
 
+    const freeTrail = await checkApiLimt();
+
+    if (!freeTrail) {
+      return new NextResponse("Free Trail is expired", { status: 403 });
+    }
+
     const params: OpenAI.Chat.ChatCompletionCreateParams = {
       messages,
       model: "gpt-3.5-turbo",
@@ -35,7 +42,7 @@ export const POST = async (req: Request) => {
     const resonse: OpenAI.Chat.ChatCompletion =
       await openai.chat.completions.create(params);
 
-    console.log(resonse);
+    await updateApiLimit();
 
     return NextResponse.json(resonse.choices[0].message, { status: 200 });
   } catch (err) {

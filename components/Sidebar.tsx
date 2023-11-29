@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
+import { apiLimitCount } from "@/lib/api-limit";
+import FreeTrail from "./free-trail";
 
 const monserrat = Montserrat({
   weight: "600",
@@ -67,7 +69,12 @@ const dashboardRoutes = [
   },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+  apiLimit: number;
+}
+
+const Sidebar = ({ apiLimit = 0 }: SidebarProps) => {
+
   const pathname = usePathname();
   return (
     <div className="h-full text-white space-y-4 py-4 flex flex-col bg-black">
@@ -80,7 +87,7 @@ const Sidebar = () => {
             Genie
           </h1>
         </Link>
-        <div className="space-y-1">
+        <div className="space-y-2">
           {dashboardRoutes.map((route) => (
             <Link
               href={route.href}
@@ -94,6 +101,10 @@ const Sidebar = () => {
             </Link>
           ))}
         </div>
+      </div>
+
+      <div className="w-full p-5">
+        <FreeTrail apiLimit={apiLimit} />
       </div>
     </div>
   );

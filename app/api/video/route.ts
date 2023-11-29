@@ -1,3 +1,4 @@
+import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
@@ -17,6 +18,11 @@ export const POST = async (req: Request) => {
       return new NextResponse("Messages are requred", { status: 400 });
     }
 
+    const freeTrail = await checkApiLimt();
+    if (!freeTrail) {
+      return new NextResponse("Freetrail is expired", { status: 403 });
+    }
+
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN!,
     });
@@ -29,6 +35,7 @@ export const POST = async (req: Request) => {
         },
       }
     );
+    await updateApiLimit();
 
     return NextResponse.json(response, { status: 200 });
   } catch (err) {
