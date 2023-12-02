@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 import { url } from "inspector";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface MessageProps {
   role: string;
@@ -49,6 +50,7 @@ interface MessageProps {
 const ConversationPage = () => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
+  const promodal = useProModal();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchma>>({
     resolver: zodResolver(formSchma),
@@ -70,8 +72,12 @@ const ConversationPage = () => {
       console.log(urls);
       setImages(urls);
       form.reset();
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+
+      if (err?.response?.status === 403) {
+        promodal.onOpen();
+      }
     } finally {
       form.reset();
       setIsUpdating(false);

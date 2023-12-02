@@ -24,6 +24,7 @@ import Loader from "../../_components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "../../_components/user-avatar";
 import BotAvatar from "../../_components/bot-avatar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface MessageProps {
   role: string;
@@ -33,6 +34,7 @@ interface MessageProps {
 const ConversationPage = () => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [messages, setMessages] = useState<MessageProps[]>([]);
+  const promodal = useProModal();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchma>>({
     resolver: zodResolver(formSchma),
@@ -55,8 +57,10 @@ const ConversationPage = () => {
       });
       setMessages((curr) => [...curr, response.data, userMessage]);
       form.reset();
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err?.response?.status === 403) {
+        promodal.onOpen();
+      }
     } finally {
       setIsUpdating(false);
       router.refresh();

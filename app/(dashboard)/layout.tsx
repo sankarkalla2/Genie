@@ -7,7 +7,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   console.log(apiLimit)
   return (
     <div className="relative h-full">
-      <div className="hidden h-full md:flex md:flex-col fixed md:inset-y-0 md:w-72 z-[80] bg-gray-900">
+      <div className="hidden h-full md:flex md:flex-col fixed md:inset-y-0 md:w-72 bg-gray-900">
         <Sidebar apiLimit={apiLimit} />
       </div>
 
