@@ -181,7 +181,7 @@ const ConversationPage = () => {
                         <SelectGroup>
                           <SelectLabel>Resolution Size</SelectLabel>
                           {resulutionOptions.map((option) => (
-                            <SelectItem value={option.value}>
+                            <SelectItem value={option.value} key={option.label}>
                               {option.value}
                             </SelectItem>
                           ))}
@@ -206,7 +206,7 @@ const ConversationPage = () => {
           {isUpdating && <Loader />}
           {images.length === 0 && !isUpdating && <Empty />}
           {images.map((src) => (
-            <Card className="rounded-lg overflow-hidden">
+            <Card key={src} className="rounded-lg overflow-hidden">
               <div className="relative aspect-square">
                 <Image src={src} alt="img" fill />
               </div>
