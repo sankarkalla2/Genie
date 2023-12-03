@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import {
@@ -11,7 +11,7 @@ import {
   VideoIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const aiTools = [
@@ -35,9 +35,9 @@ const aiTools = [
   },
   {
     label: "Music Generation",
-    href: '/music',
-    color: 'text-red-600',
-    icon: Music
+    href: "/music",
+    color: "text-red-600",
+    icon: Music,
   },
 
   {
@@ -55,7 +55,7 @@ const aiTools = [
 ];
 
 const Dashboard = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div>
       <div className="space-y-4 mb-8 text-center">
@@ -68,9 +68,14 @@ const Dashboard = () => {
       </div>
       <div className="space-y-4 px-8 md:px-20 lg:px-32">
         {aiTools.map((tool) => (
-          <Card onClick={() => router.push(tool.href)} className="flex p-4 items-center justify-between cursor-pointer hover:bg-slate-100 hover:shadow-md transition">
+          <Card
+            key={tool.href}
+            onClick={() => router.push(tool.href)}
+            className="flex p-4 items-center justify-between cursor-pointer hover:bg-slate-100 hover:shadow-md transition"
+          >
             <div className="flex items-center">
-              <tool.icon className={cn("w-5 h-5 mr-2", tool.color)}/>{tool.label}
+              <tool.icon className={cn("w-5 h-5 mr-2", tool.color)} />
+              {tool.label}
             </div>
             <ArrowBigRight />
           </Card>

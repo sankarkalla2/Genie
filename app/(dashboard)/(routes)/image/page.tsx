@@ -128,6 +128,7 @@ const ConversationPage = () => {
             <FormField
               control={form.control}
               name="amount"
+              key='amout'
               render={({ field }) => (
                 <FormItem className="col-span-12 lg:col-span-2">
                   <FormControl>
@@ -162,6 +163,7 @@ const ConversationPage = () => {
             <FormField
               control={form.control}
               name="resolution"
+              key='amount'
               render={({ field }) => (
                 <FormItem className="col-span-12 lg:col-span-2">
                   <FormControl>
