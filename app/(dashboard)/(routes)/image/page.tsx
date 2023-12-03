@@ -204,23 +204,23 @@ const ConversationPage = () => {
           </form>
         </Form>
 
-        <div className="mt-4">
+        {/* <div className="mt-4">
           {isUpdating && <Loader />}
           {images.length === 0 && !isUpdating && <Empty />}
           {images.map((src) => (
-            <Card key={src} className="rounded-lg overflow-hidden">
-              <div className="relative aspect-square">
-                <Image src={src} alt="img" fill />
-              </div>
+          //   <Card key={src} className="rounded-lg overflow-hidden">
+          //     <div className="relative aspect-square">
+          //       <Image src={src} alt="img" fill />
+          //     </div>
 
-              <CardFooter className="p-2">
-                <Button onClick={() => window.open(src)} variant="ghost">
-                  Download
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+          //     <CardFooter className="p-2">
+          //       <Button onClick={() => window.open(src)} variant="ghost">
+          //         Download
+          //       </Button>
+          //     </CardFooter>
+          //   </Card>
+          // ))}
+        </div> */}
       </div>
     </div>
   );

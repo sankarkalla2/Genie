@@ -68,7 +68,7 @@ const Dashboard = () => {
       </div>
       <div className="space-y-4 px-8 md:px-20 lg:px-32">
         {aiTools.map((tool) => (
-          <Card
+          <div
             key={tool.href}
             onClick={() => router.push(tool.href)}
             className="flex p-4 items-center justify-between cursor-pointer hover:bg-slate-100 hover:shadow-md transition"
@@ -78,7 +78,7 @@ const Dashboard = () => {
               {tool.label}
             </div>
             <ArrowBigRight />
-          </Card>
+          </div>
         ))}
       </div>
     </div>
