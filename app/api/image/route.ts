@@ -1,4 +1,5 @@
 import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -8,7 +9,7 @@ const openai = new OpenAI({
 });
 
 export const POST = async (req: Request) => {
-  console.log("called");
+  const isPro = await checkSubscription();
   try {
     const { userId } = auth();
     const body = await req.json();
@@ -29,7 +30,7 @@ export const POST = async (req: Request) => {
     }
 
     const freeTrail = await checkApiLimt();
-    if (!freeTrail) {
+    if (!freeTrail && !isPro) {
       return new NextResponse("Freetrail is expired", { status: 403 });
     }
 
@@ -39,7 +40,7 @@ export const POST = async (req: Request) => {
       size: resolution,
     });
 
-    await updateApiLimit();
+    !isPro && (await updateApiLimit());
 
     return NextResponse.json(response.data, { status: 200 });
   } catch (err) {

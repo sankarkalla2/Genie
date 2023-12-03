@@ -14,25 +14,28 @@ import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface MobileSidebarMenuProps {
-  apiLimit: number
+  apiLimit: number;
+  isSubscribed: boolean;
 }
-const MobileSidebarMenu = ({apiLimit}:MobileSidebarMenuProps) => {
-
+const MobileSidebarMenu = ({
+  apiLimit,
+  isSubscribed,
+}: MobileSidebarMenuProps) => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
-  }, [])
+  }, []);
 
-  if(!isMounted) return null;
+  if (!isMounted) return null;
   return (
     <Sheet>
       <SheetTrigger>
-        <Button variant='ghost' size='icon' className="md:hidden">
+        <Button variant="ghost" size="icon" className="md:hidden">
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side='left' className="p-0">
-        <Sidebar apiLimit={apiLimit}/>
+      <SheetContent side="left" className="p-0">
+        <Sidebar isPro={isSubscribed} apiLimit={apiLimit} />
       </SheetContent>
     </Sheet>
   );

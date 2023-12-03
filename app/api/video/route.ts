@@ -1,9 +1,11 @@
 import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
 
 export const POST = async (req: Request) => {
+  const isPro = await checkSubscription();
   try {
     const { userId } = auth();
     const body = await req.json();
@@ -19,7 +21,7 @@ export const POST = async (req: Request) => {
     }
 
     const freeTrail = await checkApiLimt();
-    if (!freeTrail) {
+    if (!freeTrail && !isPro) {
       return new NextResponse("Freetrail is expired", { status: 403 });
     }
 
@@ -35,7 +37,7 @@ export const POST = async (req: Request) => {
         },
       }
     );
-    await updateApiLimit();
+    !isPro && (await updateApiLimit());
 
     return NextResponse.json(response, { status: 200 });
   } catch (err) {

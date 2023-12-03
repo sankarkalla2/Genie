@@ -1,4 +1,5 @@
 import { checkApiLimt, updateApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -14,6 +15,7 @@ export const POST = async (req: Request) => {
       "you are code generator.you must answer only in markdown code spippets.use code commets for code explanations",
   };
   try {
+    const isPro = await checkSubscription();
     const { userId } = auth();
     const body = await req.json();
     const { messages } = body;
@@ -32,7 +34,7 @@ export const POST = async (req: Request) => {
       return new NextResponse("Messages are requred", { status: 400 });
     }
     const freeTrail = await checkApiLimt();
-    if (!freeTrail) {
+    if (!freeTrail && !isPro) {
       return new NextResponse("freeTrail is expired", { status: 403 });
     }
 
@@ -44,8 +46,7 @@ export const POST = async (req: Request) => {
     const resonse: OpenAI.Chat.ChatCompletion =
       await openai.chat.completions.create(params);
 
-    await updateApiLimit();
-    console.log(resonse);
+    !isPro && (await updateApiLimit());
 
     return NextResponse.json(resonse.choices[0].message, { status: 200 });
   } catch (err) {

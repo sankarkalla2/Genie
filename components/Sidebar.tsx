@@ -71,9 +71,10 @@ const dashboardRoutes = [
 
 interface SidebarProps {
   apiLimit: number;
+  isPro:boolean;
 }
 
-const Sidebar = ({ apiLimit = 0 }: SidebarProps) => {
+const Sidebar = ({ apiLimit = 0, isPro }: SidebarProps) => {
 
   const pathname = usePathname();
   return (
@@ -104,7 +105,7 @@ const Sidebar = ({ apiLimit = 0 }: SidebarProps) => {
       </div>
 
       <div className="w-full p-5">
-        <FreeTrail apiLimit={apiLimit} />
+        {!isPro && <FreeTrail apiLimit={apiLimit} />}
       </div>
     </div>
   );
