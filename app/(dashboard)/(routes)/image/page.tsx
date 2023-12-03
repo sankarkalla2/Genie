@@ -147,7 +147,7 @@ const ConversationPage = () => {
                         <SelectGroup>
                           <SelectLabel>No of Images</SelectLabel>
                           {amountOptions.map((option) => (
-                            <SelectItem value={option.value}>
+                            <SelectItem key={option.label} value={option.value}>
                               {option.value}
                             </SelectItem>
                           ))}

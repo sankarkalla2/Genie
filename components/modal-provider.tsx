@@ -78,7 +78,7 @@ const ModalProvider = () => {
   const onSubscribe = async () => {
     try {
       const resposnse = await axios.get("/api/stripe");
-      console.log(resposnse.data)
+      console.log(resposnse.data);
 
       window.location.href = resposnse.data.url;
     } catch (err: any) {
@@ -98,7 +98,10 @@ const ModalProvider = () => {
           <DialogDescription>
             <div className="flex flex-col gap-y-2 pb-4">
               {aiTools.map((tool) => (
-                <div className="w-full shadow-sm border rounded-lg p-4 flex gap-x-2 justify-between items-center">
+                <div
+                  key={tool.href}
+                  className="w-full shadow-sm border rounded-lg p-4 flex gap-x-2 justify-between items-center"
+                >
                   <div className="flex items-center gap-x-2">
                     <tool.icon className={cn("", tool.color)} />
                     {tool.label}

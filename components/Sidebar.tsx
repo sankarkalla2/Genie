@@ -71,11 +71,10 @@ const dashboardRoutes = [
 
 interface SidebarProps {
   apiLimit: number;
-  isPro:boolean;
+  isPro: boolean;
 }
 
 const Sidebar = ({ apiLimit = 0, isPro }: SidebarProps) => {
-
   const pathname = usePathname();
   return (
     <div className="h-full text-white space-y-4 py-4 flex flex-col bg-black">
@@ -92,6 +91,7 @@ const Sidebar = ({ apiLimit = 0, isPro }: SidebarProps) => {
           {dashboardRoutes.map((route) => (
             <Link
               href={route.href}
+              key={route.href}
               className={cn(
                 "flex items-center p-3 gap-2 w-full text-sm justify-start font-medium text-white hover:bg-slate-800 rounded-lg transition",
                 pathname.includes(route.href) && "bg-slate-700"
