@@ -13,6 +13,7 @@ import {
   Settings,
   Settings2,
   VideoIcon,
+  Bot,
 } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
@@ -60,6 +61,12 @@ const dashboardRoutes = [
     href: "/code",
     color: "text-violet-600",
     icon: Code,
+  },
+  {
+    label: "Vision Pro",
+    href: "/vision",
+    color: "text-green-500",
+    icon: Bot,
   },
   {
     label: "Settings",

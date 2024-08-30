@@ -1,7 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+import Link from "next/link";
 import { useState } from "react";
 
 interface SubscrioptionButtonProps {
@@ -10,6 +12,8 @@ interface SubscrioptionButtonProps {
 
 const SubscriptionButton = ({ isSubscribed }: SubscrioptionButtonProps) => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const { user } = useUser();
   const handleSubmit = async () => {
     try {
       console.log("called");
@@ -24,12 +28,15 @@ const SubscriptionButton = ({ isSubscribed }: SubscrioptionButtonProps) => {
   };
   return (
     <div className="mt-4">
-      <Button
-        disabled={isEditing}
-        onClick={handleSubmit}
-        variant={isSubscribed ? "default" : "premium"}
-      >
-        {isSubscribed ? "Manage Subscription" : "Upgrade"}
+      <Button variant={isSubscribed ? "default" : "premium"}>
+        {isSubscribed && (
+          <a
+            href={`
+https://billing.stripe.com/p/login/test_bIYg2Vd6zgVpevS144?prefilled_email=${user?.emailAddresses[0].emailAddress}`}
+          >
+            Cancel subscription
+          </a>
+        )}
       </Button>
     </div>
   );

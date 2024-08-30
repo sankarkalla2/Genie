@@ -24,10 +24,13 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import axios from "axios";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
   const promodal = useProModal();
+  const { user, isLoaded } = useUser();
 
   useEffect(() => {
     setIsMounted(true);
@@ -111,13 +114,14 @@ const ModalProvider = () => {
               ))}
             </div>
             {/* this just comment */}
-            <Button
-              onClick={onSubscribe}
-              type="button"
-              variant="premium"
-              className="w-full flex gap-x-2"
-            >
-              Upgrade <Zap className="w-4 h-4" />
+            <Button variant="premium" className="w-full flex gap-x-2">
+              <Link
+                href={`https://buy.stripe.com/test_00g3eW5e59bNg7ubIK?prefilled_email=${user?.emailAddresses[0].emailAddress}`}
+                className="flex gap-x-2 items-center"
+                target="_blank"
+              >
+                Upgrade <Zap className="w-4 h-4" />
+              </Link>
             </Button>
           </DialogDescription>
         </DialogHeader>

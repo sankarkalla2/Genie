@@ -10,7 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.27.1",
+    "@clerk/nextjs": "^4.31.4",
     "@hookform/resolvers": "^3.3.2",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -19,7 +19,8 @@
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
-    "axios": "^1.6.2",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "crisp-sdk-web": "^1.0.21",

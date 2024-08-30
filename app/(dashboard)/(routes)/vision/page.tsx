@@ -1,14 +1,13 @@
 "use client";
 
 import Heading from "@/components/ui/heading";
-import { Code } from "lucide-react";
+import { Loader2, MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchma } from "../../_components/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OpenAI } from "openai";
 import { useRouter } from "next/navigation";
-import MarkDown from "react-markdown";
 import {
   FormControl,
   Form,
@@ -18,23 +17,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Empty from "../../_components/empty";
 import Loader from "../../_components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "../../_components/user-avatar";
 import BotAvatar from "../../_components/bot-avatar";
-import Markdown from "react-markdown";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import { headers } from "next/headers";
 
 interface MessageProps {
   role: string;
   content: string;
 }
 
-const ConversationPage = () => {
+const VisionModel = () => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const promodal = useProModal();
   const router = useRouter();
@@ -44,6 +46,39 @@ const ConversationPage = () => {
       prompt: "",
     },
   });
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    event.preventDefault();
+
+    if (!image) {
+      console.log("No file selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } catch (err: any) {
+      console.log("Error while uploading image", err);
+    }
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setImage(reader.result);
+        }
+      };
+    }
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchma>) => {
     try {
@@ -54,17 +89,12 @@ const ConversationPage = () => {
       };
 
       const newMessages = [...messages, userMessage];
-
-      console.log(newMessages)
-      const response = await axios.post("/api/code", {
+      const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
-
-      console.log(response)
       setMessages((curr) => [...curr, response.data, userMessage]);
       form.reset();
     } catch (err: any) {
-      console.log(err);
       if (err?.response?.status === 403) {
         promodal.onOpen();
       }
@@ -76,13 +106,41 @@ const ConversationPage = () => {
   return (
     <div>
       <Heading
-        title="Code"
-        description="get code by spcifying text"
-        icon={Code}
-        color="text-violet-700"
-        bgColor="bg-violet-700/10"
+        title="Vision Model"
+        description="Upload image and ask questions about it"
+        icon={MessageSquare}
+        color="text-green-600"
+        bgColor="bg-green-600/50"
       />
-      <div className="px-4 lg:px-8">
+
+      {image ? (
+        <div className="w-full flex justify-center">
+          <Image src={image} alt="image" height={200} width={200} />
+        </div>
+      ) : (
+        <div>
+          <Input
+            disabled={isUpdating}
+            type="file"
+            id="picture"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          <div className="w-full flex justify-center">
+            <label
+              id="text-input"
+              htmlFor="picture"
+              className="pr-1 text-blue-600"
+            >
+              Upload{" "}
+            </label>{" "}
+            image to and ask question about it
+          </div>
+        </div>
+      )}
+
+      <div className="px-4 lg:px-8 pt-4">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -103,12 +161,12 @@ const ConversationPage = () => {
               render={({ field }) => (
                 <FormItem className="col-span-12 md:col-span-10">
                   <FormControl>
-                    <Input
-                      disabled={isUpdating}
-                      placeholder="Write code for a number is prime or not..."
-                      {...field}
-                      className="py-6 md:p-6 outline-none"
-                    />
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                      <Input
+                        disabled={isUpdating}
+                        placeholder="ask something..."
+                      />
+                    </div>
                   </FormControl>
                 </FormItem>
               )}
@@ -136,22 +194,7 @@ const ConversationPage = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-
-                <Markdown
-                  components={{
-                    pre: ({ node, ...props }) => (
-                      <div className="bg-black/10 p-2 rounded-lg overflow-auto my-2">
-                        <pre {...props} />
-                      </div>
-                    ),
-                    code: ({ node, ...props }) => (
-                      <code {...props} className="p-1 rounded-lg" />
-                    ),
-                  }}
-                  className="text-sm overflow-hidden"
-                >
-                  {message.content}
-                </Markdown>
+                {message.content}
               </div>
             ))}
           </div>
@@ -161,4 +204,4 @@ const ConversationPage = () => {
   );
 };
 
-export default ConversationPage;
+export default VisionModel;
