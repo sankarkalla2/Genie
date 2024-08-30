@@ -40,7 +40,7 @@ const PricingPlans = () => {
   if (!isLoaded) return;
   return (
     <div className="flex w-full items-center justify-center">
-      <Tabs defaultValue="monthly" className="w-[400px]">
+      <Tabs defaultValue="month" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="month">Pay Monthly</TabsTrigger>
           <TabsTrigger value="year">Pay Yearly (60%off)</TabsTrigger>
