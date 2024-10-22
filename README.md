@@ -9,6 +9,18 @@ AI Genie is a personal project that harnesses the power of artificial intelligen
 - **Secure Authentication**: User authentication powered by Clerk.js.
 - **Stripe Integration**: Seamless subscription payments through Stripe.
 
+## Dashboard Preview
+
+![AI Genie Dashboard](https://utfs.io/f/x8mzEklJSlivBA6OcVSsS8OQ0tFE67o39ACUjvauTwbYIKyz)
+
+## Sample Generations
+
+### Code Generation
+![Sample Code Generation](https://utfs.io/f/x8mzEklJSliv2QcHBE9xVFicPdHO8u7wyCQoK4JXAZ5bWkjL)
+
+### Image Generation
+![Sample Image Generation](path/to/image-generation-image.png)
+
 ## Tech Stack
 
 - **Frontend**: Next.js 13 with TypeScript
