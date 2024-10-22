@@ -34,7 +34,7 @@ AI Genie is a personal project that harnesses the power of artificial intelligen
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ai-genie.git
+   git clone https://github.com/sankarkalla2/Genie.git
    cd ai-genie
    ```
 
