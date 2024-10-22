@@ -30,7 +30,32 @@ AI Genie is a personal project that harnesses the power of artificial intelligen
    ```
 
 3. Set up environment variables:
-   Create a `.env.local` file in the root directory and add the necessary environment variables.
+   Create a `.env.local` file in the root directory and add the following environment variables:
+
+   ```
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+   OPENAI_API_KEY=your_openai_api_key
+
+   REPLICATE_API_TOKEN=your_replicate_api_token
+
+   DATABASE_URL=your_database_url
+
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+   UPLOADTHING_SECRET=your_uploadthing_secret
+   UPLOADTHING_APP_ID=your_uploadthing_app_id
+   ```
+
+   Replace the placeholder values with your actual API keys and credentials.
 
 4. Run the development server:
    ```bash
