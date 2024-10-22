@@ -15,11 +15,13 @@ AI Genie is a personal project that harnesses the power of artificial intelligen
 
 ## Sample Generations
 
-### Code Generation
-![Sample Code Generation](https://utfs.io/f/x8mzEklJSliv2QcHBE9xVFicPdHO8u7wyCQoK4JXAZ5bWkjL)
+### Conversation Generation
+![Sample Generation](https://utfs.io/f/x8mzEklJSliv2QcHBE9xVFicPdHO8u7wyCQoK4JXAZ5bWkjL)
 
-### Image Generation
-![Sample Image Generation](path/to/image-generation-image.png)
+### Code Generation
+![Sample Code Generation](https://utfs.io/f/x8mzEklJSliv3TIOKzXv1yghAalVdBc7OkWqKYHsLEiXSUTZ)
+
+
 
 ## Tech Stack
 
